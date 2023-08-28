@@ -4,55 +4,81 @@
  */
 
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Oberon {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         int result = 0;
-        System.out.println("Желаете использовать римские, или арабские числа? В первом случае введите I во втором - 1");
-        String cebteul = s.nextLine();
-        System.out.println("Введите два числа");
+        String[] actions = { "+", "-", "/", "*" };
+        String[] regexActions = { "\\+", "-", "/", "\\*" };
+        Converter convert = new Converter();
+        // System.out.println("Желаете использовать римские, или арабские числа? В
+        // первом случае введите I во втором - 1");
+        // String cebteul = s.nextLine();
+        System.out.println("Введите выражение");
         String ss = s.nextLine();
-        String[] forMath = ss.split(" ");
-        FromRomanToArabic rome2Arab = new FromRomanToArabic();
-        int[] forMath1 = new int[2];
-        if (cebteul.equals("I")) {
-            for (int i = 0; i < forMath.length; i++) {
-                forMath1[i] = rome2Arab.RometoArab(forMath[i]);
-            }
-        } else if (cebteul.equals("1")) {
-            for (int i = 0; i < forMath.length; i++) {
-                forMath1[i] = Integer.parseInt(forMath[i]);
+
+        int actionIndex = -1;
+        for (int i = 0; i < actions.length; i++) {
+            if (ss.contains(actions[i])) {
+                actionIndex = i;
+                break;
             }
         }
-        System.out.println("Введите операнд");
-
-        String operand = s.nextLine();
-
-        switch (operand) {
-            case "+":
-                result = forMath1[0] + forMath1[1];
-                break;
-            case "-":
-                result = forMath1[0] - forMath1[1];
-                break;
-            case "*":
-                result = forMath1[0] * forMath1[1];
-                break;
-            case "/":
-                result = forMath1[0] / forMath1[1];
-                break;
-
+        if (actionIndex == -1) {
+            System.out.println("Введено некорректное значение");
+            return;
         }
-        // if (cebteul.equals("I")) {
-        // FromArabicToRoman arab2Rome = new FromArabicToRoman();
-        // String romanResult = arab2Rome.ArabToRoman(result);
+        String[] forMath = ss.split(regexActions[actionIndex]);
+        if ((convert.isRoman(forMath[0])) == (convert.isRoman(forMath[1]))) {
+            int a = 0;
+            int b = 0;
+            if (convert.isRoman(forMath[0]) == true) {
+                FromRomanToArabic rome2Arab = new FromRomanToArabic();
+                a = rome2Arab.RometoArab(forMath[0]);
+                b = rome2Arab.RometoArab(forMath[1]);
+            } else if (convert.isRoman(forMath[0]) == false) {
+                a = Integer.parseInt(forMath[0]);
+                b = Integer.parseInt(forMath[1]);
+            }
 
-        // }
-        // if (cebteul.equals("1")) {
-        System.out.println(result);
-        // }
+            // FromRomanToArabic rome2Arab = new FromRomanToArabic();
 
+            // if (cebteul.equals("I")) {
+
+            // forMath1[i] = rome2Arab.RometoArab(forMath[i]);
+            // } else if (cebteul.equals("1")) {
+            // for (int i = 0; i < forMath.length; i++) {
+            // forMath1[i] = Integer.parseInt(forMath[i]);
+            // }
+            // }
+            // System.out.println("Введите операнд");
+
+            switch (actions[actionIndex]) {
+                case "+":
+                    result = a + b;
+                    break;
+                case "-":
+                    result = a - b;
+                    break;
+                case "*":
+                    result = a * b;
+                    break;
+                case "/":
+                    result = a / b;
+                    break;
+
+            }
+            // if (cebteul.equals("I")) {
+            // FromArabicToRoman arab2Rome = new FromArabicToRoman();
+            // String romanResult = arab2Rome.ArabToRoman(result);
+
+            // }
+            // if (cebteul.equals("1")) {
+            System.out.println(result);
+            // }
+        }
     }
 }
 
@@ -123,4 +149,56 @@ class FromArabicToRoman {
      * 
      * }return result
      */
+}
+
+class IsSymbolRome {
+    public int NumberValue(String x) {
+        int result = 0;
+        switch (x) {
+            case ("I"):
+                result = 1;
+            case ("II"):
+                result = 2;
+            case ("III"):
+                result = 3;
+            case ("IV"):
+                result = 4;
+            case ("V"):
+                result = 5;
+            case ("VI"):
+                result = 6;
+            case ("VII"):
+                result = 7;
+            case ("VIII"):
+                result = 8;
+            case ("IX"):
+                result = 9;
+            case ("X"):
+                result = 10;
+
+        }
+        return result;
+    }
+
+}
+
+class Converter {
+    TreeMap<Character, Integer> romanKeyMap = new TreeMap<>();
+
+    public Converter() {
+        romanKeyMap.put('I', 1);
+        romanKeyMap.put('V', 5);
+        romanKeyMap.put('X', 10);
+        romanKeyMap.put('L', 50);
+        romanKeyMap.put('C', 100);
+        romanKeyMap.put('D', 500);
+        romanKeyMap.put('M', 1000);
+
+    }
+
+    public boolean isRoman(String number) {
+
+        return romanKeyMap.containsKey(number.charAt(0));
+    }
+
 }
