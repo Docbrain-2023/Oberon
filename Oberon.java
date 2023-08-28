@@ -72,10 +72,17 @@ public class Oberon {
 
             // }
             // if (cebteul.equals("1")) {
-            System.out.println(result);
+            if (convert.isRoman(forMath[0])) {
+                System.out.println(convert.intToRoman(result));
+            } else {
+                System.out.println(result);
+            }
             // }
+        } else {
+            System.out.println("Введено неверное значение");
         }
     }
+
 }
 
 class FromRomanToArabic {
@@ -180,6 +187,7 @@ class IsSymbolRome {
 
 class Converter {
     TreeMap<Character, Integer> romanKeyMap = new TreeMap<>();
+    TreeMap<Integer, String> arabianKeyMap = new TreeMap<>();
 
     public Converter() {
         romanKeyMap.put('I', 1);
@@ -190,6 +198,20 @@ class Converter {
         romanKeyMap.put('D', 500);
         romanKeyMap.put('M', 1000);
 
+        arabianKeyMap.put(1000, "M");
+        arabianKeyMap.put(900, "CM");
+        arabianKeyMap.put(500, "D");
+        arabianKeyMap.put(400, "CD");
+        arabianKeyMap.put(100, "C");
+        arabianKeyMap.put(90, "XC");
+        arabianKeyMap.put(50, "L");
+        arabianKeyMap.put(40, "XL");
+        arabianKeyMap.put(10, "X");
+        arabianKeyMap.put(9, "IX");
+        arabianKeyMap.put(5, "V");
+        arabianKeyMap.put(4, "IV");
+        arabianKeyMap.put(1, "I");
+
     }
 
     public boolean isRoman(String number) {
@@ -197,4 +219,14 @@ class Converter {
         return romanKeyMap.containsKey(number.charAt(0));
     }
 
+    public String intToRoman(int number) {
+        String roman = "";
+        int arabianKey = 0;
+        do {
+            arabianKey = arabianKeyMap.floorKey(number);
+            roman += arabianKeyMap.get(arabianKey);
+            number -= arabianKey;
+        } while (number != 0);
+        return roman;
+    }
 }
