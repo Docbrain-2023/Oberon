@@ -111,6 +111,8 @@ public class Oberon {
                 a = Integer.parseInt(forMath[0]);
                 b = Integer.parseInt(forMath[1]);
             }
+            if (a > 10)
+                throw new Exception("Неверное значение");
 
             switch (actions[actionIndex]) {
                 case "+":
@@ -127,12 +129,14 @@ public class Oberon {
                     break;
 
             }
-            if (result < 1)
-                throw new Exception("Неверное значение");
-            if (result > 10)
-                throw new Exception("Неверное значение");
+
+            // if (result > 10)
+            // throw new Exception("Неверное значение");
             if (convert.isRoman(forMath[0])) {
-                return (convert.intToRoman(result));
+                if (result < 1)
+                    throw new Exception("Неверное значение");
+                else
+                    return (convert.intToRoman(result));
 
             } else {
                 String result1 = String.valueOf(result);
