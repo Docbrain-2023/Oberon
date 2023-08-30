@@ -136,7 +136,7 @@ public class Oberon {
                 return (convert.intToRoman(result));
 
             } else {
-                String result1 = String.ValueOf(result);
+                String result1 = String.valueOf(result);
                 return result1;
             }
             // }
