@@ -127,12 +127,11 @@ public class Oberon {
                     break;
 
             }
-
+            if (result < 1)
+                throw new Exception("Неверное значение");
+            if (result > 10)
+                throw new Exception("Неверное значение");
             if (convert.isRoman(forMath[0])) {
-                if (result < 1)
-                    throw new Exception("Неверное значение");
-                if (result > 10)
-                    throw new Exception("Неверное значение");
                 return (convert.intToRoman(result));
 
             } else {
