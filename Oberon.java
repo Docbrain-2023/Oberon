@@ -3,30 +3,103 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Oberon {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Введите выражение");
+        String ss = s.nextLine();
+        System.out.println(calc(ss));
+        /*
+         * int result = 0;
+         * S1tring[] actions = { "+", "-", "/", "*" };
+         * String[] regexActions = { "\\+", "-", "/", "\\*" };
+         * Converter convert = new Converter();
+         * 
+         * System.out.println("Введите выражение");
+         * String ss = s.nextLine();
+         * 
+         * int actionIndex = -1;
+         * for (int i = 0; i < actions.length; i++) {
+         * if (ss.contains(actions[i])) {
+         * actionIndex = i;
+         * break;
+         * }
+         * }
+         * if (actionIndex == -1) {
+         * System.out.println("Введено некорректное значение");
+         * return;
+         * }
+         * String[] forMath = ss.split(regexActions[actionIndex]);
+         * if (forMath.length != 2)
+         * throw new Exception("Неверное значение");
+         * if ((convert.isRoman(forMath[0])) == (convert.isRoman(forMath[1]))) {
+         * int a = 0;
+         * int b = 0;
+         * if (convert.isRoman(forMath[0]) == true) {
+         * FromRomanToArabic rome2Arab = new FromRomanToArabic();
+         * a = rome2Arab.RometoArab(forMath[0]);
+         * b = rome2Arab.RometoArab(forMath[1]);
+         * } else if (convert.isRoman(forMath[0]) == false) {
+         * a = Integer.parseInt(forMath[0]);
+         * b = Integer.parseInt(forMath[1]);
+         * }
+         * 
+         * 
+         * 
+         * switch (actions[actionIndex]) {
+         * case "+":
+         * result = a + b;
+         * break;
+         * case "-":
+         * result = a - b;
+         * break;
+         * case "*":
+         * result = a * b;
+         * break;
+         * case "/":
+         * result = a / b;
+         * break;
+         * 
+         * }
+         * 
+         * if (convert.isRoman(forMath[0])) {
+         * if (result < 1)
+         * throw new Exception("Неверное значение");
+         * if (result > 10)
+         * throw new Exception("Неверное значение");
+         * System.out.println(convert.intToRoman(result));
+         * 
+         * } else {
+         * System.out.println(result);
+         * }
+         * // }
+         * } else {
+         * System.out.println("Введено неверное значение");
+         * }
+         * }
+         */
+
+    }
+
+    public static String calc(String input) throws Exception {
         Scanner s = new Scanner(System.in);
         int result = 0;
         String[] actions = { "+", "-", "/", "*" };
         String[] regexActions = { "\\+", "-", "/", "\\*" };
         Converter convert = new Converter();
-        // System.out.println("Желаете использовать римские, или арабские числа? В
-        // первом случае введите I во втором - 1");
-        // String cebteul = s.nextLine();
-        System.out.println("Введите выражение");
-        String ss = s.nextLine();
 
         int actionIndex = -1;
         for (int i = 0; i < actions.length; i++) {
-            if (ss.contains(actions[i])) {
+            if (input.contains(actions[i])) {
                 actionIndex = i;
                 break;
             }
         }
         if (actionIndex == -1) {
-            System.out.println("Введено некорректное значение");
-            return;
+            throw new Exception("Неверное значение");
         }
-        String[] forMath = ss.split(regexActions[actionIndex]);
+        String[] forMath = input.split(regexActions[actionIndex]);
+        if (forMath.length != 2)
+            throw new Exception("Неверное значение");
         if ((convert.isRoman(forMath[0])) == (convert.isRoman(forMath[1]))) {
             int a = 0;
             int b = 0;
@@ -38,18 +111,6 @@ public class Oberon {
                 a = Integer.parseInt(forMath[0]);
                 b = Integer.parseInt(forMath[1]);
             }
-
-            // FromRomanToArabic rome2Arab = new FromRomanToArabic();
-
-            // if (cebteul.equals("I")) {
-
-            // forMath1[i] = rome2Arab.RometoArab(forMath[i]);
-            // } else if (cebteul.equals("1")) {
-            // for (int i = 0; i < forMath.length; i++) {
-            // forMath1[i] = Integer.parseInt(forMath[i]);
-            // }
-            // }
-            // System.out.println("Введите операнд");
 
             switch (actions[actionIndex]) {
                 case "+":
@@ -66,23 +127,23 @@ public class Oberon {
                     break;
 
             }
-            // if (cebteul.equals("I")) {
-            // FromArabicToRoman arab2Rome = new FromArabicToRoman();
-            // String romanResult = arab2Rome.ArabToRoman(result);
 
-            // }
-            // if (cebteul.equals("1")) {
             if (convert.isRoman(forMath[0])) {
-                System.out.println(convert.intToRoman(result));
+                if (result < 1)
+                    throw new Exception("Неверное значение");
+                if (result > 10)
+                    throw new Exception("Неверное значение");
+                return (convert.intToRoman(result));
+
             } else {
-                System.out.println(result);
+                String result1 = String.ValueOf(result);
+                return result1;
             }
             // }
         } else {
-            System.out.println("Введено неверное значение");
+            throw new Exception("Неверное значение");
         }
     }
-
 }
 
 class FromRomanToArabic {
